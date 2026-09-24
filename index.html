@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I'm Really Sorry ❤️</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #2d1847, #130a21);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      color: #3b1d5a;
+    }
+
+    /* Phone container mockup */
+    .card-container {
+      width: 100%;
+      max-width: 400px;
+      background: #fdf7fc;
+      border-radius: 36px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+      padding: 32px 24px;
+      position: relative;
+      overflow: hidden;
+      min-height: 580px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+    }
+
+    .floating-hearts {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.25;
+      font-size: 20px;
+    }
+
+    .heart-icon {
+      position: absolute;
+      animation: float 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes float {
+      from { transform: translateY(0px) rotate(0deg); }
+      to { transform: translateY(-12px) rotate(10deg); }
+    }
+
+    .slide {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      animation: fadeIn 0.6s ease;
+      margin: auto 0;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .sticker {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.08));
+    }
+
+    h2 {
+      font-size: 22px;
+      color: #2b1147;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .typewriter-text {
+      font-size: 15px;
+      color: #6c4b8b;
+      min-height: 48px;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .next-btn {
+      background: #4a2574;
+      color: #fff;
+      border: none;
+      outline: none;
+      padding: 12px 32px;
+      border-radius: 99px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 24px;
+      box-shadow: 0 6px 18px rgba(74, 37, 116, 0.35);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .next-btn:hover {
+      transform: scale(1.04);
+      background: #5b2e8d;
+    }
+
+    /* Envelope styling */
+    .envelope-box {
+      cursor: pointer;
+      font-size: 80px;
+      transition: transform 0.3s;
+      margin: 20px 0;
+    }
+
+    .envelope-box:hover {
+      transform: scale(1.1);
+    }
+
+    /* Forgiveness Slider */
+    .slider-wrap {
+      width: 100%;
+      margin: 25px 0 10px;
+      position: relative;
+    }
+
+    .slider-label {
+      font-size: 13px;
+      color: #795796;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 10px;
+      border-radius: 5px;
+      background: #e2d2f2;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #5b2e8d;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: background 0.2s;
+    }
+
+    /* Final Card */
+    .photo-frame {
+      width: 170px;
+      height: 170px;
+      border-radius: 18px;
+      object-fit: cover;
+      margin: 16px 0;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      border: 4px solid #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card-container">
+    <div class="floating-hearts">
+      <span class="heart-icon" style="top: 8%; left: 10%;">💜</span>
+      <span class="heart-icon" style="top: 15%; right: 12%;">🌸</span>
+      <span class="heart-icon" style="bottom: 15%; left: 8%;">✨</span>
+      <span class="heart-icon" style="bottom: 8%; right: 14%;">💖</span>
+    </div>
+
+    <div class="slide active" id="slide1">
+      <img src="https://media.tenor.com/79bE1m5p0Y8AAAAi/milk-and-mocha-bear.gif" class="sticker" alt="sorry bear" />
+      <h2>Vani... I Have Something to Say 🥺</h2>
+      <p class="typewriter-text" id="type1"></p>
+      <button class="next-btn" onclick="nextSlide(1)">Next →</button>
+    </div>
+
+    <div class="slide" id="slide2">
+      <img src="https://media.tenor.com/2Xy3Kz2F7jQAAAAi/sad-bear.gif" class="sticker" alt="bear apology" />
+      <h2>I Know I Hurt You</h2>
+      <p class="typewriter-text" id="type2"></p>
+      <button class="next-btn" onclick="nextSlide(2)">Next →</button>
+    </div>
+
+    <div class="slide" id="slide3">
+      <h2>I wrote this for you... 💌</h2>
+      <div class="envelope-box" onclick="nextSlide(3)">✉️</div>
+      <p style="font-size: 13px; color: #795796;">Tap the envelope to open</p>
+    </div>
+
+    <div class="slide" id="slide4">
+      <h2>Vani, 💙</h2>
+      <p style="font-size: 14px; line-height: 1.6; color: #432161; margin-bottom: 12px;">
+        "I can't stand being at odds with you. None of this matters more than you do."
+      </p>
+      <p style="font-weight: 600; font-size: 14px; margin-bottom: 16px;">— Yuvraj 💙</p>
+
+      <div class="slider-wrap">
+        <span class="slider-label" id="sliderText">Slide to forgive me... 🥺</span>
+        <input type="range" id="forgiveSlider" min="0" max="100" value="0" oninput="handleSlide(this.value)" />
+      </div>
+    </div>
+
+    <div class="slide" id="slide5">
+      <h2>You just made my day! 🥹💙</h2>
+      <p style="font-size: 14px; color: #5a3877; line-height: 1.6; margin-top: 8px;">
+        "I said things I deeply regret and never should have let cross my lips. You didn’t deserve that at all, and our friendship means the world to me. No pressure to move past it right away—I just wanted to take full responsibility and let you know I’m genuinely sorry"
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Typewriter message texts
+    const messages = [
+      "I just want a chance to say this from the bottom of my heart...",
+      "I never wanted to be the reason you felt this way. I'm truly sorry."
+    ];
+
+    function typeWriter(elementId, text, i = 0) {
+      if (i < text.length) {
+        document.getElementById(elementId).innerHTML += text.charAt(i);
+        setTimeout(() => typeWriter(elementId, text, i + 1), 38);
+      }
+    }
+
+    // Start first typing effect on load
+    window.onload = () => {
+      typeWriter('type1', messages[0]);
+    };
+
+    function nextSlide(current) {
+      document.getElementById(`slide${current}`).classList.remove('active');
+      const next = current + 1;
+      const nextSlideEl = document.getElementById(`slide${next}`);
+      if (nextSlideEl) {
+        nextSlideEl.classList.add('active');
+        if (next === 2) {
+          typeWriter('type2', messages[1]);
+        }
+      }
+    }
+
+    function handleSlide(val) {
+      const label = document.getElementById('sliderText');
+      if (val < 40) {
+        label.innerText = "Slide to forgive me... 🥺";
+      } else if (val < 90) {
+        label.innerText = "Almost there... only if you're ready 💜";
+      } else {
+        label.innerText = "I forgive you! ✨";
+        setTimeout(() => {
+          nextSlide(4);
+          triggerConfetti();
+        }, 350);
+      }
+    }
+
+    function triggerConfetti() {
+      const end = Date.now() + 2.5 * 1000;
+      const colors = ['#8b5cf6', '#ec4899', '#f43f5e', '#a855f7'];
+
+      (function frame() {
+        confetti({
+          particleCount: 4,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: colors
+        });
+        confetti({
+          particleCount: 4,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: colors
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
+    }
+  </script>
+</body>
+</html>
