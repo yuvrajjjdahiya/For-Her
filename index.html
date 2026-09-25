@@ -166,17 +166,6 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       transition: background 0.2s;
     }
-
-    /* Final Card */
-    .photo-frame {
-      width: 170px;
-      height: 170px;
-      border-radius: 18px;
-      object-fit: cover;
-      margin: 16px 0;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      border: 4px solid #fff;
-    }
   </style>
 </head>
 <body>
@@ -211,7 +200,7 @@
 
     <div class="slide" id="slide4">
       <h2>Thanks for hearing me out 🥺💙</h2>
-      <p style="font-size: 14px; color: #5a3877; line-height: 1.6; margin-top: 8px;">
+      <p style="font-size: 14px; color: #5a3877; line-height: 1.6; margin-top: 12px; margin-bottom: 8px;">
         "I said things I deeply regret and never should have let cross my lips. You didn’t deserve that at all, and our friendship means the world to me. No pressure to move past it right away—I just wanted to take full responsibility and let you know I’m genuinely sorry."
       </p>
       <button class="next-btn" onclick="nextSlide(4)">One last thing →</button>
@@ -240,8 +229,11 @@
 
     function typeWriter(elementId, text, i = 0) {
       if (i < text.length) {
-        document.getElementById(elementId).innerHTML += text.charAt(i);
-        setTimeout(() => typeWriter(elementId, text, i + 1), 38);
+        const el = document.getElementById(elementId);
+        if (el) {
+          el.innerHTML += text.charAt(i);
+          setTimeout(() => typeWriter(elementId, text, i + 1), 38);
+        }
       }
     }
 
@@ -251,7 +243,10 @@
     };
 
     function nextSlide(current) {
-      document.getElementById(`slide${current}`).classList.remove('active');
+      const currentEl = document.getElementById(`slide${current}`);
+      if (currentEl) {
+        currentEl.classList.remove('active');
+      }
       const next = current + 1;
       const nextSlideEl = document.getElementById(`slide${next}`);
       if (nextSlideEl) {
@@ -270,8 +265,7 @@
         label.innerText = "Almost there... only if you're ready 💜";
       } else {
         label.innerText = "I forgive you! ✨";
-          triggerConfetti();
-        }
+        triggerConfetti();
       }
     }
 
@@ -280,20 +274,22 @@
       const colors = ['#8b5cf6', '#ec4899', '#f43f5e', '#a855f7'];
 
       (function frame() {
-        confetti({
-          particleCount: 4,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 },
-          colors: colors
-        });
-        confetti({
-          particleCount: 4,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 },
-          colors: colors
-        });
+        if (typeof confetti === 'function') {
+          confetti({
+            particleCount: 4,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: colors
+          });
+          confetti({
+            particleCount: 4,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: colors
+          });
+        }
 
         if (Date.now() < end) {
           requestAnimationFrame(frame);
