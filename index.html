@@ -23,7 +23,6 @@
       color: #3b1d5a;
     }
 
-    /* Phone container mockup */
     .card-container {
       width: 100%;
       max-width: 400px;
@@ -70,7 +69,7 @@
     }
 
     .slide.active {
-      display: flex;
+      display: flex !important;
     }
 
     @keyframes fadeIn {
@@ -121,7 +120,6 @@
       background: #5b2e8d;
     }
 
-    /* Envelope styling */
     .envelope-box {
       cursor: pointer;
       font-size: 80px;
@@ -133,7 +131,6 @@
       transform: scale(1.1);
     }
 
-    /* Forgiveness Slider */
     .slider-wrap {
       width: 100%;
       margin: 25px 0 10px;
@@ -164,7 +161,6 @@
       background: #5b2e8d;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: background 0.2s;
     }
   </style>
 </head>
@@ -178,34 +174,39 @@
       <span class="heart-icon" style="bottom: 8%; right: 14%;">💖</span>
     </div>
 
+    <!-- Slide 1 -->
     <div class="slide active" id="slide1">
       <img src="https://media.tenor.com/79bE1m5p0Y8AAAAi/milk-and-mocha-bear.gif" class="sticker" alt="sorry bear" />
       <h2>Vani... I Have Something to Say 🥺</h2>
       <p class="typewriter-text" id="type1"></p>
-      <button class="next-btn" onclick="nextSlide(1)">Next →</button>
+      <button type="button" class="next-btn" onclick="nextSlide(1)">Next →</button>
     </div>
 
+    <!-- Slide 2 -->
     <div class="slide" id="slide2">
       <img src="https://media.tenor.com/2Xy3Kz2F7jQAAAAi/sad-bear.gif" class="sticker" alt="bear apology" />
       <h2>I Know I Hurt You</h2>
       <p class="typewriter-text" id="type2"></p>
-      <button class="next-btn" onclick="nextSlide(2)">Next →</button>
+      <button type="button" class="next-btn" onclick="nextSlide(2)">Next →</button>
     </div>
 
+    <!-- Slide 3 -->
     <div class="slide" id="slide3">
       <h2>I wrote this for you... 💌</h2>
       <div class="envelope-box" onclick="nextSlide(3)">✉️</div>
       <p style="font-size: 13px; color: #795796;">Tap the envelope to open</p>
     </div>
 
+    <!-- Slide 4 -->
     <div class="slide" id="slide4">
       <h2>Thanks for hearing me out 🥺💙</h2>
       <p style="font-size: 14px; color: #5a3877; line-height: 1.6; margin-top: 12px; margin-bottom: 8px;">
         "I said things I deeply regret and never should have let cross my lips. You didn’t deserve that at all, and our friendship means the world to me. No pressure to move past it right away—I just wanted to take full responsibility and let you know I’m genuinely sorry."
       </p>
-      <button class="next-btn" onclick="nextSlide(4)">One last thing →</button>
+      <button type="button" class="next-btn" onclick="nextSlide(4)">One last thing →</button>
     </div>
 
+    <!-- Slide 5 -->
     <div class="slide" id="slide5">
       <h2>Vani, 💙</h2>
       <p style="font-size: 14px; line-height: 1.6; color: #432161; margin-bottom: 12px;">
@@ -221,37 +222,32 @@
   </div>
 
   <script>
-    // Typewriter message texts
     const messages = [
       "I just want a chance to say this from the bottom of my heart...",
       "I never wanted to be the reason you felt this way. I'm truly sorry."
     ];
 
     function typeWriter(elementId, text, i = 0) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
       if (i < text.length) {
-        const el = document.getElementById(elementId);
-        if (el) {
-          el.innerHTML += text.charAt(i);
-          setTimeout(() => typeWriter(elementId, text, i + 1), 38);
-        }
+        el.innerHTML += text.charAt(i);
+        setTimeout(() => typeWriter(elementId, text, i + 1), 35);
       }
     }
 
-    // Start first typing effect on load
-    window.onload = () => {
+    window.addEventListener('DOMContentLoaded', () => {
       typeWriter('type1', messages[0]);
-    };
+    });
 
     function nextSlide(current) {
-      const currentEl = document.getElementById(`slide${current}`);
-      if (currentEl) {
-        currentEl.classList.remove('active');
-      }
-      const next = current + 1;
-      const nextSlideEl = document.getElementById(`slide${next}`);
-      if (nextSlideEl) {
-        nextSlideEl.classList.add('active');
-        if (next === 2) {
+      const currentEl = document.getElementById('slide' + current);
+      const nextEl = document.getElementById('slide' + (current + 1));
+      
+      if (currentEl) currentEl.classList.remove('active');
+      if (nextEl) {
+        nextEl.classList.add('active');
+        if (current === 1) {
           typeWriter('type2', messages[1]);
         }
       }
@@ -259,6 +255,8 @@
 
     function handleSlide(val) {
       const label = document.getElementById('sliderText');
+      if (!label) return;
+
       if (val < 40) {
         label.innerText = "Slide to forgive me... 🥺";
       } else if (val < 90) {
@@ -270,31 +268,13 @@
     }
 
     function triggerConfetti() {
-      const end = Date.now() + 2.5 * 1000;
-      const colors = ['#8b5cf6', '#ec4899', '#f43f5e', '#a855f7'];
-
-      (function frame() {
+      try {
         if (typeof confetti === 'function') {
-          confetti({
-            particleCount: 4,
-            angle: 60,
-            spread: 55,
-            origin: { x: 0 },
-            colors: colors
-          });
-          confetti({
-            particleCount: 4,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1 },
-            colors: colors
-          });
+          confetti({ particleCount: 70, spread: 60, origin: { y: 0.7 } });
         }
-
-        if (Date.now() < end) {
-          requestAnimationFrame(frame);
-        }
-      }());
+      } catch (e) {
+        // Fallback silently if blocked
+      }
     }
   </script>
 </body>
